@@ -24,7 +24,7 @@ public class PlayerJoin implements Listener {
         int y = 17;
         int z = 41;
         p.teleport(new Location(p.getWorld(), x,y,z));
-
+        Inventory.HotBar(p);
         CustomScoreboardManager.getInstance().clearScoreboard(p);
         CustomScoreboardManager.getInstance().setLobbyScoreboard(p);
     }

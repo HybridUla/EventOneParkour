@@ -36,30 +36,14 @@ public class Inventory implements Listener {
 
     public void ItemClick(InventoryClickEvent event){
 
-        Player p = (Player) event.getWhoClicked();
+        if (event.getCurrentItem() == null || !event.getCurrentItem().hasItemMeta()) return;
 
-        ItemStack reset = new ItemStack(Material.SLIME_BALL);
-        ItemMeta resetmeta = reset.getItemMeta();
-        resetmeta.setDisplayName("§b§lReset To Last Checkpoint");
-        reset.setItemMeta(resetmeta);
+        Player p = (Player) event.getWhoClicked();
 
         if(event.getCurrentItem().getItemMeta().getDisplayName().contains("§b§lStart Parkour Challenge")){
             event.setCancelled(true);
-            p.sendTitle("PHANTOM PARKOUR","TIME STARTED",1,5,3);
-            //SEND THE PARKOUR SCOREBOARD AND START THE TIMER
-            CustomScoreboardManager.getInstance().clearScoreboard(p);
-             CustomScoreboardManager.getInstance().setParkourScoreboard(p);
-            //CLEAR INVENTORY
-            p.getInventory().clear();
-
-            //ADD SLIME FOR PLAYER TO DROP FOR RESET CHECKPOINT
-            p.getInventory().setItem(1, reset);
-
-            //TELEPORT TO THE FIRST PARKOUR
-            p.teleport(new Location(p.getWorld(), 9.300,-41.0000,-6.36525));
-            //SET PARKOUR TO 1
-
             //SET CHECKPOINT TO PARKOUR 1 SPAWNPOINT
+            handleStartParkour(p);
 
         }
 
@@ -69,6 +53,30 @@ public class Inventory implements Listener {
         }
 
 
+    }
+
+    private void handleStartParkour(Player player) {
+        player.sendTitle("PHANTOM PARKOUR", "TIME STARTED", 1, 5, 3);
+        CustomScoreboardManager.getInstance().clearScoreboard(player);
+        CustomScoreboardManager.getInstance().setParkourScoreboard(player);
+        player.getInventory().clear();
+
+        // Reset item
+        ItemStack reset = new ItemStack(Material.SLIME_BALL);
+        ItemMeta resetMeta = reset.getItemMeta();
+        if (resetMeta != null) {
+            resetMeta.setDisplayName("§b§lReset To Last Checkpoint");
+            reset.setItemMeta(resetMeta);
+            player.getInventory().setItem(1, reset);
+        }
+
+        // Teleport to the first parkour
+        player.teleport(new Location(player.getWorld(), 9.300, -41.0000, -6.36525));
+        // Additional logic for setting the parkour to 1 and checkpoint handling goes here
+    }
+
+    private void handleResetToCheckpoint(Player player) {
+        // Logic to reset the player to the last checkpoint
     }
 
 }
