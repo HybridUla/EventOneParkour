@@ -2,7 +2,7 @@ package industries.hybrid.mc.Utils;
 
 import org.bukkit.ChatColor;
 
-public class ColorScrollplus {
+public class ColorScrollPlus {
 
     private int position;
     private String str;
@@ -14,7 +14,7 @@ public class ColorScrollplus {
     private boolean upperCaseMid;
     private ScrollType scrollType;
 
-    public ColorScrollplus(ChatColor textColor, String str, String colorMid, String colorBefore, String colorAfter, boolean bold, boolean upperCaseMid, ScrollType scrollType) {
+    public ColorScrollPlus(ChatColor textColor, String str, String colorMid, String colorBefore, String colorAfter, boolean bold, boolean upperCaseMid, ScrollType scrollType) {
         this.str = str;
         this.colorMid = colorMid;
         this.bold = bold;

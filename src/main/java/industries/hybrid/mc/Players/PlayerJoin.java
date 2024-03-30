@@ -1,6 +1,7 @@
 package industries.hybrid.mc.Players;
 
 import industries.hybrid.mc.Main;
+import industries.hybrid.mc.Parkour.CustomScoreboardManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,6 +24,9 @@ public class PlayerJoin implements Listener {
         int y = 17;
         int z = 41;
         p.teleport(new Location(p.getWorld(), x,y,z));
+
+        CustomScoreboardManager.getInstance().clearScoreboard(p);
+        CustomScoreboardManager.getInstance().setLobbyScoreboard(p);
     }
 
 }
