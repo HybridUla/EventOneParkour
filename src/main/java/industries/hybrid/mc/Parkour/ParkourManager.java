@@ -11,7 +11,17 @@ public class ParkourManager {
     private final Map<String, ParkourCourse> parkours = new HashMap<>();
     private final List<String> parkourOrder = new ArrayList<>();
     private final Map<UUID, PlayerParkourProgress> playerProgressMap = new HashMap<>();
+    public Collection<ParkourCourse> getAllParkours() {
+        return new ArrayList<>(parkours.values());
+    }
+    private static ParkourManager instance;
 
+    public static ParkourManager getInstance() {
+        if (instance == null) {
+            instance = new ParkourManager();
+        }
+        return instance;
+    }
 
 
     public void addParkour(ParkourCourse parkour) {
@@ -51,25 +61,27 @@ public class ParkourManager {
         }
     }
 
-    public void handleParkourCompletion(Player player) {
-        PlayerParkourProgress progress = playerProgressMap.get(player.getUniqueId());
-
+    public boolean checkIfEndOfParkour(Player player, Location location) {
+        PlayerParkourProgress progress = getPlayerProgress(player.getUniqueId());
         if (progress != null && progress.getCurrentParkour() != null) {
-            ParkourCourse nextParkour = getNextParkour(progress.getCurrentParkour().getName());
-            progress.setCurrentParkour(nextParkour);
-
-            if (nextParkour != null) {
-                player.teleport(nextParkour.getStartLocation());
-                player.sendMessage(ChatColor.GREEN + "Next parkour: " + nextParkour.getName());
-            } else {
-                player.sendMessage(ChatColor.GREEN + "You've completed all the parkours!");
+            ParkourCourse currentCourse = progress.getCurrentParkour();
+            // Assuming each ParkourCourse has an end location, compare it with the player's location
+            Location endLocation = currentCourse.getEndLocation();
+            if (endLocation != null && location.getWorld().equals(endLocation.getWorld())) {
+                double distance = location.distance(endLocation);
+                // Consider the player has reached the end if they are within 5 blocks of the end location
+                if (distance <= 5.0) {
+                    return true;
+                }
             }
         }
+        return false;
     }
 
-    public PlayerParkourProgress getPlayerProgress(Player player) {
-        return playerProgressMap.computeIfAbsent(player.getUniqueId(), k -> new PlayerParkourProgress());
+    public PlayerParkourProgress getPlayerProgress(UUID playerId) {
+        return playerProgressMap.computeIfAbsent(playerId, k -> new PlayerParkourProgress());
     }
+
 
 
 }

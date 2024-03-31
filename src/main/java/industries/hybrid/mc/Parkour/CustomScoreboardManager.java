@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -16,24 +17,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomScoreboardManager implements Listener {
-    private static CustomScoreboardManager instance = null;
+    private static CustomScoreboardManager instance;
+    private Plugin plugin;
 
-    private CustomScoreboardManager(){
-
-    }
-
-    public static CustomScoreboardManager getInstance(){
-        if (instance == null){
+    public static void initialize(Plugin plugin) {
+        if (instance == null) {
             instance = new CustomScoreboardManager();
+            instance.plugin = plugin;
         }
+    }
+
+    public static CustomScoreboardManager getInstance() {
         return instance;
-
     }
 
-    private Main plugin;
-    public CustomScoreboardManager(Main plugin){
-        this.plugin = plugin;
-    }
 
 
     private final ScoreboardManager manager = Bukkit.getScoreboardManager();
@@ -52,8 +49,8 @@ public class CustomScoreboardManager implements Listener {
 
         objective.getScore(" ").setScore(0);
         objective.getScore("  ").setScore(1);
-        objective.getScore("Welcome " + player.getDisplayName()).setScore(2);
-        objective.getScore("Players: " + TotalOnline + "/24").setScore(3);
+        objective.getScore("§lWelcome §a§l" + player.getDisplayName()).setScore(2);
+        objective.getScore("§e§lPlayers: " + TotalOnline + "/24").setScore(3);
         objective.getScore("   ").setScore(4);
         objective.getScore("    ").setScore(5);
 
@@ -74,7 +71,7 @@ public class CustomScoreboardManager implements Listener {
                 objective.setDisplayName(cs1.next());
 
             }
-        }.runTaskTimer(this.plugin, 0L, 20L);
+        }.runTaskTimer(instance.plugin, 0L, 2L);
 
 
         return scoreboard;
@@ -100,6 +97,7 @@ public class CustomScoreboardManager implements Listener {
 
         new BukkitRunnable()
         {
+            @Override
             public void run()
             {
                 if (cs1.getScrollType() == ColorScrollPlus.ScrollType.FORWARD)
@@ -114,7 +112,7 @@ public class CustomScoreboardManager implements Listener {
                 objective.setDisplayName(cs1.next());
 
             }
-        }.runTaskTimer(this.plugin, 0L, 20L);
+        }.runTaskTimer(this.plugin, 0L, 2L);
 
 
         return scoreboard;

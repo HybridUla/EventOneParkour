@@ -1,0 +1,7 @@
+name: PhantomSurvival
+version: '${project.version}'
+main: industries.hybrid.mc.Main
+prefix: PHANTOM>>
+load: STARTUP
+authors: [ HybridUla ]
+description: Phantom Survival

@@ -15,13 +15,5 @@ public class ParkourCompletionListener implements Listener {
         this.parkourManager = parkourManager;
     }
 
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        Block block = player.getLocation().getBlock().getRelative(0, -1, 0); // Get the block below the player
 
-        if (block.getType() == Material.REDSTONE_BLOCK) {
-            parkourManager.handleParkourCompletion(player);
-        }
-    }
 }

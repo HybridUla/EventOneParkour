@@ -45,6 +45,8 @@ public class PlayerParkourProgress implements Listener {
 
     public void setCurrentCheckpoint(Location currentCheckpoint) {
         this.currentCheckpoint = currentCheckpoint;
+        System.out.println("Checkpoint set to: " + currentCheckpoint);
+
     }
     // Getters and setters
 
